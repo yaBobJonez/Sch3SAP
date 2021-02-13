@@ -2,13 +2,13 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>yabj</groupId>
   <artifactId>sch3sap</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <name>Sch3SAP</name>
   <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <maven.compiler.release>11</maven.compiler.release>
       <javafx.version>15.0.1</javafx.version>
-      <app.platform>linux</app.platform>
+      <app.platform>mac</app.platform>
   </properties>
   <build>
     <sourceDirectory>src</sourceDirectory>
@@ -36,7 +36,7 @@
                     <release>${maven.compiler.release}</release>
                     <jlinkImageName>sch3sap</jlinkImageName>
                     <launcher>launcher</launcher>
-                    <mainClass>yabj.sch3sap.AppDispatcher</mainClass>
+                    <mainClass>yabj.sch3sap.AppLauncher</mainClass>
                 </configuration>
             </plugin>
       <plugin>
@@ -52,11 +52,11 @@
                     <configuration>
                         <shadedArtifactAttached>true</shadedArtifactAttached>
                         <shadedClassifierName>project-classifier</shadedClassifierName>
-                        <outputFile>${project.artifactId}-{project.version}-{app.platform}.jar</outputFile>
+                        <outputFile>${project.artifactId}-${project.version}-${app.platform}.jar</outputFile>
                         <transformers>
                             <transformer implementation=
                                                  "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                <mainClass>yabj.sch3sap.AppDispatcher</mainClass>
+                                <mainClass>yabj.sch3sap.AppLauncher</mainClass>
                             </transformer>
                         </transformers>
                     </configuration>
@@ -67,7 +67,7 @@
   </build>
   <dependencies>
         <!-- For Linux -->
-        <dependency>
+        <!-- <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>${javafx.version}</version>
@@ -84,9 +84,9 @@
             <artifactId>javafx-media</artifactId>
             <version>${javafx.version}</version>
             <classifier>linux</classifier>
-        </dependency>
+        </dependency> -->
         <!-- For Microsoft Windows -->
-        <dependency>
+        <!-- <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>${javafx.version}</version>
@@ -103,7 +103,7 @@
             <artifactId>javafx-media</artifactId>
             <version>${javafx.version}</version>
             <classifier>win</classifier>
-        </dependency>
+        </dependency> -->
         <!-- For Apple macOS -->
         <dependency>
             <groupId>org.openjfx</groupId>
