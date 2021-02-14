@@ -25,6 +25,6 @@ jobs:
       run: mvn compile package --file pom.xml
     - run: mkdir staging && cp *win.jar staging
     - uses: actions/upload-artifact@v1
-        with:
-          name: Binary
-          path: staging
+      with:
+        name: Binary
+        path: staging
