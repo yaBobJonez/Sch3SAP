@@ -5,9 +5,8 @@
   <version>1.0.3</version>
   <name>Sch3SAP</name>
   
-  <!-- JDK 8 has JavaFX already included in it, so with back-porting, no dependencies are needed.
   <profiles>
-  	<!- On Linux --><!--
+  	<!-- On Linux -->
   	<profile>
   	  <id>lnxMvn</id>
   	  <activation><os><family>unix</family></os></activation>
@@ -33,7 +32,7 @@
         </dependency>
   	  </dependencies>
   	</profile>
-  	<!- On Windows --><!--
+  	<!-- On Windows -->
   	<profile>
   	  <id>winMvn</id>
   	  <activation><os><family>windows</family></os></activation>
@@ -59,7 +58,7 @@
         </dependency>
   	  </dependencies>
   	</profile>
-  	<!- For macOS --><!--
+  	<!-- For macOS -->
   	<profile>
   	  <id>macMvn</id>
   	  <activation><os><family>mac</family></os></activation>
@@ -85,14 +84,12 @@
         </dependency>
   	  </dependencies>
   	</profile>
-  </profiles> -->
+  </profiles>
   
   <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <!-- <maven.compiler.release>8</maven.compiler.release> for Java 9+ -->
-      <maven.compiler.source>1.8</maven.compiler.source>
-      <maven.compiler.target>1.8</maven.compiler.target>
-      <!-- <javafx.version>15.0.1</javafx.version> -->
+      <maven.compiler.release>11</maven.compiler.release>
+      <javafx.version>15.0.1</javafx.version>
   </properties>
   
   <build>
@@ -110,24 +107,20 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.1</version>
         <configuration>
-          <!-- <release>1.8</release> for Java 9+ -->
-          <source>${maven.compiler.source}</source>
-          <target>${maven.compiler.target}</target>
+          <release>${maven.compiler.release}</release>
         </configuration>
       </plugin>
-      <!-- <plugin>
+      <plugin>
         <groupId>org.openjfx</groupId>
         <artifactId>javafx-maven-plugin</artifactId>
         <version>0.0.5</version>
         <configuration>
-          <!- <release>${maven.compiler.release}</release> on Java 9+ --><!--
-          <source>${maven.compiler.source}</source>
-          <target>${maven.compiler.target}</target>
+          <release>${maven.compiler.release}</release>
           <jlinkImageName>sch3sap</jlinkImageName>
           <launcher>launcher</launcher>
           <mainClass>yabj.sch3sap.AppLauncher</mainClass>
         </configuration>
-      </plugin> -->
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
