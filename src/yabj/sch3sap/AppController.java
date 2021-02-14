@@ -57,7 +57,7 @@ public class AppController {
 				scheduler.schedule(new TimerTask(){
 					@Override
 					public void run() {
-						curr = new Media("file://" + item.getPath());
+						curr = new Media("file://" + getNormalizedPath(item.getPath()));
 						controls = new MediaPlayer(curr);
 						controls.setOnReady(() -> {
 							controls.play();
@@ -89,7 +89,7 @@ public class AppController {
 		if(file != null) path.setText(file.getAbsolutePath());
 	}
 	@FXML protected void onAdd(){
-		if(dateTime.getValue() == null || path.getText().isBlank()) return;
+		if(dateTime.getValue() == null || isBlank(path.getText())) return;
 		if(!new File(path.getText()).exists()) return;
 		if( dateTime.getValue().isBefore(LocalTime.now()) ) return;
 		list.getItems().add(new QueueElement(
@@ -108,7 +108,7 @@ public class AppController {
 	}
 	@FXML protected void onEdit(){
 		if(list.getSelectionModel().isEmpty()) return;
-		if(editDateTime.getValue() == null || editPath.getText().isBlank()) return;
+		if(editDateTime.getValue() == null || isBlank(editPath.getText())) return;
 		if(!new File(editPath.getText()).exists()) return;
 		if(editDateTime.getValue().isBefore(LocalTime.now())) return;
 		list.getItems().set( list.getSelectionModel().getSelectedIndex(), new QueueElement(
@@ -132,9 +132,21 @@ public class AppController {
 		else if(controls.getStatus() == Status.STOPPED){ pause.setVisible(false); stop.setVisible(false); }
 	}
 	@FXML protected void onSettings(){
-		
+		//TODO Settings
 	}
 	@FXML protected void onInfo(){
-		
+		//TODO Info
+	}
+	private String getNormalizedPath(String link){ //Microsoft Windows path to RFC-3986
+		if(!(link.charAt(0) == '/')){
+            link = link.replace("\\", "/");
+            link = "/" + link;
+        } return link;
+	}
+	private boolean isBlank(String str){ //Java 8 support
+		if(str.equals("") || str == null) return true;
+		for(char ch : str.toCharArray()){
+			if(!Character.isWhitespace(ch)) return false;
+		} return true;
 	}
 }
