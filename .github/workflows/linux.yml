@@ -23,4 +23,8 @@ jobs:
       run: mvn clean
     - name: Build and package
       run: mvn compile package --file pom.xml
-
+    - run: mkdir staging && cp *linux.jar staging
+    - uses: actions/upload-artifact@v1
+        with:
+          name: Binary
+          path: staging

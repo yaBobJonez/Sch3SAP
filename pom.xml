@@ -2,14 +2,96 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>yabj</groupId>
   <artifactId>sch3sap</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
   <name>Sch3SAP</name>
+  
+  <profiles>
+  	<!-- On Linux -->
+  	<profile>
+  	  <id>lnxMvn</id>
+  	  <activation><os><family>unix</family></os></activation>
+  	  <properties><app.platform>linux</app.platform></properties>
+  	  <dependencies>
+  	  	<dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${javafx.version}</version>
+            <classifier>linux</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>${javafx.version}</version>
+            <classifier>linux</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>${javafx.version}</version>
+            <classifier>linux</classifier>
+        </dependency>
+  	  </dependencies>
+  	</profile>
+  	<!-- On Windows -->
+  	<profile>
+  	  <id>winMvn</id>
+  	  <activation><os><family>windows</family></os></activation>
+  	  <properties><app.platform>win</app.platform></properties>
+  	  <dependencies>
+  	  	<dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${javafx.version}</version>
+            <classifier>win</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>${javafx.version}</version>
+            <classifier>win</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>${javafx.version}</version>
+            <classifier>win</classifier>
+        </dependency>
+  	  </dependencies>
+  	</profile>
+  	<!-- For macOS -->
+  	<profile>
+  	  <id>macMvn</id>
+  	  <activation><os><family>mac</family></os></activation>
+  	  <properties><app.platform>mac</app.platform></properties>
+  	  <dependencies>
+  	  	<dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${javafx.version}</version>
+            <classifier>mac</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>${javafx.version}</version>
+            <classifier>mac</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>${javafx.version}</version>
+            <classifier>mac</classifier>
+        </dependency>
+  	  </dependencies>
+  	</profile>
+  </profiles>
+  
   <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <maven.compiler.release>11</maven.compiler.release>
       <javafx.version>15.0.1</javafx.version>
-      <app.platform>mac</app.platform>
   </properties>
+  
   <build>
     <sourceDirectory>src</sourceDirectory>
     <resources>
@@ -29,99 +111,40 @@
         </configuration>
       </plugin>
       <plugin>
-                <groupId>org.openjfx</groupId>
-                <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.5</version>
-                <configuration>
-                    <release>${maven.compiler.release}</release>
-                    <jlinkImageName>sch3sap</jlinkImageName>
-                    <launcher>launcher</launcher>
-                    <mainClass>yabj.sch3sap.AppLauncher</mainClass>
-                </configuration>
-            </plugin>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-maven-plugin</artifactId>
+        <version>0.0.5</version>
+        <configuration>
+          <release>${maven.compiler.release}</release>
+          <jlinkImageName>sch3sap</jlinkImageName>
+          <launcher>launcher</launcher>
+          <mainClass>yabj.sch3sap.AppLauncher</mainClass>
+        </configuration>
+      </plugin>
       <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-shade-plugin</artifactId>
-            <version>3.2.0</version>
-            <executions>
-                <execution>
-                    <phase>package</phase>
-                    <goals>
-                        <goal>shade</goal>
-                    </goals>
-                    <configuration>
-                        <shadedArtifactAttached>true</shadedArtifactAttached>
-                        <shadedClassifierName>project-classifier</shadedClassifierName>
-                        <outputFile>${project.artifactId}-${project.version}-${app.platform}.jar</outputFile>
-                        <transformers>
-                            <transformer implementation=
-                                                 "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                <mainClass>yabj.sch3sap.AppLauncher</mainClass>
-                            </transformer>
-                        </transformers>
-                    </configuration>
-                </execution>
-            </executions>
-        </plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.2.0</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <shadedArtifactAttached>true</shadedArtifactAttached>
+              <shadedClassifierName>project-classifier</shadedClassifierName>
+              <outputFile>${project.artifactId}-${project.version}-${app.platform}.jar</outputFile>
+              <transformers>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                  <mainClass>yabj.sch3sap.AppLauncher</mainClass>
+                </transformer>
+              </transformers>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
-  <dependencies>
-        <!-- For Linux -->
-        <!-- <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-controls</artifactId>
-            <version>${javafx.version}</version>
-            <classifier>linux</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-fxml</artifactId>
-            <version>${javafx.version}</version>
-            <classifier>linux</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-media</artifactId>
-            <version>${javafx.version}</version>
-            <classifier>linux</classifier>
-        </dependency> -->
-        <!-- For Microsoft Windows -->
-        <!-- <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-controls</artifactId>
-            <version>${javafx.version}</version>
-            <classifier>win</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-fxml</artifactId>
-            <version>${javafx.version}</version>
-            <classifier>win</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-media</artifactId>
-            <version>${javafx.version}</version>
-            <classifier>win</classifier>
-        </dependency> -->
-        <!-- For Apple macOS -->
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-controls</artifactId>
-            <version>${javafx.version}</version>
-            <classifier>mac</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-fxml</artifactId>
-            <version>${javafx.version}</version>
-            <classifier>mac</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-media</artifactId>
-            <version>${javafx.version}</version>
-            <classifier>mac</classifier>
-        </dependency>
-    </dependencies>
+  
 </project>
