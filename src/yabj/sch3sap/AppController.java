@@ -1,6 +1,7 @@
 package yabj.sch3sap;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -11,18 +12,25 @@ import java.util.TimerTask;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
 
 public class AppController {
 	public boolean active = false;
+	public static boolean deleteOnPlay = false;
 	private FileChooser fileChooser = new FileChooser();
 	protected Media curr;
 	protected MediaPlayer controls;
@@ -43,13 +51,13 @@ public class AppController {
 	@FXML private Button settings;
 	@FXML private Button information;
 	{
-		fileChooser.setTitle("Оберіть аудіо-файл.");
-		fileChooser.setSelectedExtensionFilter(new ExtensionFilter("Аудіо", "*.mp4", "*.aiff"));
 		Platform.runLater(() -> { list.widthProperty().addListener((width, old, value) -> {
 			list.getColumns().get(0).setPrefWidth((double)value / 100 * 15);
 			list.getColumns().get(1).setPrefWidth((double)value / 100 * 30);
 			list.getColumns().get(2).setPrefWidth((double)value / 100 * 65);
-		}); });
+		}); fileChooser.setTitle("Оберіть аудіо-файл.");
+			fileChooser.setSelectedExtensionFilter(new ExtensionFilter("Аудіо", "*.mp4", "*.aiff"));
+		});
 	}
 	@FXML protected void onExecute() throws ParseException{
 		if(!active){
@@ -61,6 +69,7 @@ public class AppController {
 						controls = new MediaPlayer(curr);
 						controls.setOnReady(() -> {
 							controls.play();
+							if(AppController.deleteOnPlay) list.getItems().remove(item);
 						}); controls.setOnPlaying(() -> {
 							pause.setVisible(true); stop.setVisible(true);
 							pause.setText("⏸"); stop.setText("⏹");
@@ -89,7 +98,7 @@ public class AppController {
 		if(file != null) path.setText(file.getAbsolutePath());
 	}
 	@FXML protected void onAdd(){
-		if(dateTime.getValue() == null || isBlank(path.getText())) return;
+		if(dateTime.getValue() == null || path.getText().isBlank()) return;
 		if(!new File(path.getText()).exists()) return;
 		if( dateTime.getValue().isBefore(LocalTime.now()) ) return;
 		list.getItems().add(new QueueElement(
@@ -108,7 +117,7 @@ public class AppController {
 	}
 	@FXML protected void onEdit(){
 		if(list.getSelectionModel().isEmpty()) return;
-		if(editDateTime.getValue() == null || isBlank(editPath.getText())) return;
+		if(editDateTime.getValue() == null || editPath.getText().isBlank()) return;
 		if(!new File(editPath.getText()).exists()) return;
 		if(editDateTime.getValue().isBefore(LocalTime.now())) return;
 		list.getItems().set( list.getSelectionModel().getSelectedIndex(), new QueueElement(
@@ -131,22 +140,29 @@ public class AppController {
 		else if(controls.getStatus() == Status.PAUSED) controls.stop();
 		else if(controls.getStatus() == Status.STOPPED){ pause.setVisible(false); stop.setVisible(false); }
 	}
-	@FXML protected void onSettings(){
-		//TODO Settings
+	@FXML protected void onSettings() throws IOException{
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("gui_settings.fxml"));
+		Scene scene = new Scene(loader.load(), 640, 480);
+		SettingsController controller = (SettingsController)(loader.getController());
+		controller.list = list;
+		controller.isSelectedOnStart = deleteOnPlay;
+		Stage window = new Stage(); window.setScene(scene); window.show();
 	}
 	@FXML protected void onInfo(){
-		//TODO Info
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("");
+		alert.setHeaderText("Інформація о ПЗ");
+		alert.setContentText("Програвач Запланованого Аудіо,\n"
+				+ "рідній школі №3 м. Києва ;)\n\n"
+				+ "Документація: https://github.com/yaBobJonez/Sch3SAP/\n\n"
+				+ "ya_Bob_Jonez © 2021");
+		alert.getButtonTypes().set(0, ButtonType.CLOSE);
+		alert.show();
 	}
-	private String getNormalizedPath(String link){ //Microsoft Windows path to RFC-3986
+	public static String getNormalizedPath(String link){ //Microsoft Windows path to RFC-3986
 		if(!(link.charAt(0) == '/')){
             link = link.replace("\\", "/");
             link = "/" + link;
         } return link;
-	}
-	private boolean isBlank(String str){ //Java 8 support
-		if(str.equals("") || str == null) return true;
-		for(char ch : str.toCharArray()){
-			if(!Character.isWhitespace(ch)) return false;
-		} return true;
 	}
 }

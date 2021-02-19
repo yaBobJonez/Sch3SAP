@@ -13,7 +13,7 @@ public class AppDispatcher extends Application {
 		Parent gui = FXMLLoader.load(getClass().getResource("gui_notation.fxml"));
 		Scene scene = new Scene(gui, 640, 480);
 		stage.setScene(scene);
-		stage.setTitle("ПЗА для Школи №3 - yaBobJonez @ GitHub");
+		stage.setTitle("ПЗА для Школи №3");
 		stage.show();
 		stage.setOnCloseRequest(e -> {
 			Platform.exit();

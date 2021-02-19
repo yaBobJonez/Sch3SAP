@@ -194,12 +194,12 @@
          <right>
             <HBox alignment="CENTER" prefHeight="67.0" prefWidth="135.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="settings" mnemonicParsing="false" onAction="#onSettings" text="⚙" disable="true">
+                  <Button fx:id="settings" mnemonicParsing="false" onAction="#onSettings" text="⚙">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Button>
-                  <Button fx:id="information" layoutX="87.0" layoutY="24.0" mnemonicParsing="false" onAction="#onInfo" text="🛈" disable="true">
+                  <Button fx:id="information" layoutX="87.0" layoutY="24.0" mnemonicParsing="false" onAction="#onInfo" text="🛈">
                      <font>
                         <Font size="20.0" />
                      </font>
