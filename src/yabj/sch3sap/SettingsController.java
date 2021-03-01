@@ -57,7 +57,7 @@ public class SettingsController {
 		for(int i = 0; i < list.getItems().size(); i++){
 			QueueElement el = list.getItems().get(i);
 			LocalTime time = el.getTime();
-			writer.append(String.format("%02d:%02d", time.getHour(), time.getMinute())+" | "+el.getPath());
+			writer.append(String.format("%02d:%02d:%02d", time.getHour(), time.getMinute(), time.getSecond())+" | "+el.getPath());
 			if(i+1 != list.getItems().size()) writer.append('\n'); 
 		} writer.flush();
 		writer.close();
@@ -67,7 +67,7 @@ public class SettingsController {
 		Scanner reader = new Scanner(file);
 		while(reader.hasNextLine()){
 			String[] record = reader.nextLine().split(" | ");
-			LocalTime time = LocalTime.parse(record[0], DateTimeFormatter.ofPattern("HH:mm"));
+			LocalTime time = LocalTime.parse(record[0], DateTimeFormatter.ofPattern("HH:mm:ss"));
 			list.getItems().add(new QueueElement(time, new File(record[2]).getName(), record[2]));
 		} reader.close();
 	}
