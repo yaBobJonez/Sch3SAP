@@ -1,10 +1,10 @@
 <launch4jConfig>
   <headerType>gui</headerType>
-  <outfile>Sch3SAP-1.2.0.exe</outfile>
-  <jar>sch3sap-1.2.0-win.jar</jar>
+  <outfile>Sch3SAP-2.0.exe</outfile>
+  <jar>sch3sap-2.0-win.jar</jar>
   <dontWrapJar>false</dontWrapJar>
   <errTitle>Sch3SAP</errTitle>
-  <downloadUrl>http://java.com/download</downloadUrl>
+  <downloadUrl>https://adoptopenjdk.net/releases.html</downloadUrl>
   <supportUrl>https://github.com/yaBobJonez/Sch3SAP/issues</supportUrl>
   <singleInstance>
     <mutexName>sch3sapSIID</mutexName>
@@ -14,15 +14,15 @@
     <runtimeBits>64/32</runtimeBits>
   </jre>
   <versionInfo>
-    <fileVersion>1.2.0.0</fileVersion>
-    <txtFileVersion>1.2.0W</txtFileVersion>
-    <fileDescription>Scheduled Audio Player for School #3.</fileDescription>
+    <fileVersion>2.0.0.0</fileVersion>
+    <txtFileVersion>2.0W</txtFileVersion>
+    <fileDescription>Scheduled Audio Player (Singleton) for School #3.</fileDescription>
     <copyright>ya_Bob_Jonez</copyright>
-    <productVersion>1.2.0.3</productVersion>
-    <txtProductVersion>1.2.0W</txtProductVersion>
+    <productVersion>2.0.0.3</productVersion>
+    <txtProductVersion>2.0W</txtProductVersion>
     <productName>Sch3SAP</productName>
     <internalName>sch3sap_win</internalName>
-    <originalFilename>Sch3SAP-1.2.0.exe</originalFilename>
+    <originalFilename>Sch3SAP-2.0.exe</originalFilename>
   </versionInfo>
   <messages>
     <startupErr>Startup error</startupErr>
